@@ -1,0 +1,44 @@
+FROM node:alpine
+
+# Also exposing VSCode debug ports
+EXPOSE 8000 9929 9230
+
+RUN \
+  apk update \
+# --no-cache: download package index on-the-fly, no need to cleanup afterwards
+# --virtual: bundle packages, remove whole bundle at once, when done
+  && apk --no-cache --virtual build-dependencies add \
+     python \
+     make \
+     g++ \
+#  && npm install \
+#  apk add --no-cache python make g++ && \
+  && apk add --force-overwrite vips-dev fftw-dev --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing --repository http://dl-3.alpinelinux.org/alpine/edge/main \
+  && npm install -g gatsby-cli \
+  && npm install -g netlify-cli@next
+
+WORKDIR /app
+COPY ./package.json .
+
+RUN yarn install 
+
+#RUN ls /app/node_modules/.staging/
+
+COPY . .
+
+RUN yarn run setup -- --spaceId apgz9skz4bym --deliveryToken 50009c531319b0c6dd358d4726a668038f0422dd5f1869ce83280c1ab1f0f509 --managementToken CFPAT-74ccbaa7da5dfa0c871473ef0d1eb203c49552cce3331792cf32fbb340e6d4c1
+
+RUN ls /app/
+
+RUN yarn cache clean
+
+RUN apk del build-dependencies
+
+RUN rm -fR /var/cache/apk/*
+#I ll set it up myself > no need for answering the question.
+#RUN yarn run setup
+
+CMD ["gatsby", "develop", "-H", "0.0.0.0" ]
+
+#CMD ["yarn", "run", "dev"]
+
