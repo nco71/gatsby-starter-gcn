@@ -41,3 +41,7 @@ See the [official Contentful getting started guide](https://www.contentful.com/d
 Feel free to open pull requests to fix bugs. If you want to add features, please have a look at the [original version](https://github.com/contentful-userland/gatsby-contentful-starter). It is always open to contributions and pull requests.
 
 You can learn more about how Contentful userland is organized by visiting [our about repository](https://github.com/contentful-userland/about).
+
+## Deploy Status
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3410e2c9-4ba9-4586-88e0-8fc49d3d3a24/deploy-status)](https://app.netlify.com/sites/starter-gatsby-blog/deploys)
